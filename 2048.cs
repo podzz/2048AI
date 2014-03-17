@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace _2048AI
 {
-    public partial class Form1 : Form
+    public partial class _2048 : Form
     {
-        public Form1()
+        public _2048()
         {
             InitializeComponent();
         }
