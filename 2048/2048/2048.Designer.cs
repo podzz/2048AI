@@ -2,6 +2,7 @@
 {
     partial class Form1
     {
+        //TEST DE COMMENTAIRE
         /// <summary>
         /// Variable nécessaire au concepteur.
         /// </summary>
