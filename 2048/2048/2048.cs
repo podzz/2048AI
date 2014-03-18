@@ -16,17 +16,20 @@ namespace _2048
     public partial class Form1 : Form
     {
         protected Thread thread;
+        private Array2048 array;
         protected IntPtr nav;
 
         public Form1()
         {
             InitializeComponent();
             nav = IntPtr.Zero;
+            array = new Array2048();
             foreach (Process pList in Process.GetProcesses())
                 if (pList.MainWindowTitle.Contains("Chrome"))
                     nav = pList.MainWindowHandle;
             thread = new Thread(new ThreadStart(refresh));
             thread.Start();
+            
 
         }
 
@@ -42,6 +45,7 @@ namespace _2048
                 Bitmap bmp2 = bmp.Clone(cut, bmp.PixelFormat);
                 bmp.Dispose();
                 this.pictureBox1.Image = bmp2;
+                array.update_array(bmp2);
                 // IMAGE DE 495 x 495
             }
         }
