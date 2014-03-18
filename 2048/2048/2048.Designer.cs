@@ -49,6 +49,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(1317, 640);
             this.splitContainer1.SplitterDistance = 1077;
             this.splitContainer1.TabIndex = 1;
+            this.splitContainer1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer1_KeyDown);
             // 
             // pictureBox1
             // 

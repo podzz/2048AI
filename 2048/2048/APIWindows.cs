@@ -38,6 +38,9 @@ namespace _2048
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowRect(IntPtr hWnd, out Rectangle lpRect);
 
+        [DllImport("User32.dll")]
+        public static extern int SetForegroundWindow(IntPtr point);
+
     }
 
     [StructLayout(LayoutKind.Sequential)]

@@ -50,6 +50,7 @@
     <Compile Include="2048.Designer.cs">
       <DependentUpon>2048.cs</DependentUpon>
     </Compile>
+    <Compile Include="Array2048.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="APIWindows.cs" />

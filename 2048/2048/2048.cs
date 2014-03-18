@@ -16,36 +16,52 @@ namespace _2048
     public partial class Form1 : Form
     {
         protected Thread thread;
+        protected IntPtr nav;
+
         public Form1()
         {
             InitializeComponent();
-            thread = new Thread(new ThreadStart(refresh));
-            thread.Start();
-            
-        }
-
-        void refresh()
-        {
-            IntPtr chrome = IntPtr.Zero;
+            nav = IntPtr.Zero;
             foreach (Process pList in Process.GetProcesses())
                 if (pList.MainWindowTitle.Contains("Chrome"))
-                    chrome = pList.MainWindowHandle;
+                    nav = pList.MainWindowHandle;
+            thread = new Thread(new ThreadStart(refresh));
+            thread.Start();
+
+        }
+
+        private void refresh()
+        {
+            Rectangle rect = new Rectangle();
+            ScreenShot.GetWindowRect(this.nav, out rect);
+            Rectangle cut = new Rectangle(rect.Width / 2 - 249, 330, 495, 495);
             while (true)
             {
-                Rectangle rect = new Rectangle();
-                ScreenShot.GetWindowRect(chrome, out rect);
-                var bmp = ScreenShot.PrintWindow(chrome);
-                var bmp2 = bmp.Clone(new Rectangle(rect.Width / 2 - 249, 330, 495, 495), bmp.PixelFormat);
-
-                // IMAGE DE 495 x 495
+                var bmp = ScreenShot.PrintWindow(nav);
+                var bmp2 = bmp.Clone(cut, bmp.PixelFormat);
                 this.pictureBox1.Image = bmp2;
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
+                // IMAGE DE 495 x 495
             }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.thread.Abort();
+        }
+
+        private void splitContainer1_KeyDown(object sender, KeyEventArgs e)
+        {
+            ScreenShot.SetForegroundWindow(nav);
+            if (e.KeyCode == Keys.Up)
+                SendKeys.SendWait("{UP}");
+            else if (e.KeyCode == Keys.Down)
+                SendKeys.SendWait("{DOWN}");
+            else if (e.KeyCode == Keys.Left)
+                SendKeys.SendWait("{LEFT}");
+            else if (e.KeyCode == Keys.Right)
+                SendKeys.SendWait("{RIGHT}");
+            ScreenShot.SetForegroundWindow(this.Handle);
         }
     }
 }
