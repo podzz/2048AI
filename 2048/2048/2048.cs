@@ -37,12 +37,12 @@ namespace _2048
         {
             Rectangle rect = new Rectangle();
             ScreenShot.GetWindowRect(this.nav, out rect);
-            Rectangle cut = new Rectangle(rect.Width / 2 - 249, 330, 495, 495);
+            Rectangle cut = new Rectangle(rect.Width / 2 - this.hScrollBar1.Value, this.hScrollBar2.Value, 495, 495);
             Bitmap bmp = null;
             while (true)
             {
                 bmp = ScreenShot.PrintWindow(nav);
-                Bitmap bmp2 = bmp.Clone(cut, bmp.PixelFormat);
+                Bitmap bmp2 = bmp.Clone(new Rectangle(rect.Width / 2 - this.hScrollBar1.Value, this.hScrollBar2.Value, 495, 495), bmp.PixelFormat);
                 bmp.Dispose();
                 this.pictureBox1.Image = bmp2;
                 array.update_array(bmp2);

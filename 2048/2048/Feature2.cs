@@ -13,7 +13,7 @@ namespace _2048
         {
         }
 
-        public float compute(int[][] board)
+        public float compute(float[][] board)
         {
             float res = 0.0f;
 
