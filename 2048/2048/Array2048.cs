@@ -9,7 +9,10 @@ namespace _2048
 {
     class Array2048
     {
+        //Array of board value to int [3,3]array
         private int[,] array_int;
+
+        //Constructor initialize array
         public Array2048()
         {
             array_int = new int[4,4];
@@ -18,7 +21,9 @@ namespace _2048
                     array_int[i, j] = 0;
         }
 
-        public List<Point> update_array(Bitmap bmp)
+        /* Update the array value by getting the color on each cell of the array
+          each color are associated to a number */
+        public void update_array(Bitmap bmp)
         {
             int padd_x = 120;
             int padd_y = 120;
@@ -26,44 +31,32 @@ namespace _2048
             int x = 70;
             int y = 30;
 
-            List<Point> list_point = new List<Point>();
 
             for (int i = 0; i <= 3; i++)
             {
                 for (int j = 0; j <= 3; j++)
                 {
                     this.array_int[i,j] = get_value_by_color(bmp.GetPixel(x, y));
-                    list_point.Add(new Point(x, y));
                     x += padd_x;
                 }
                 x = 70;
                 y+= padd_y;
             }
-            display_array();
-            return list_point;
-            
         }
 
-        public void display_array()
-        {
-            for (int i = 0; i <= 3; i++)
-            {
-                for (int j = 0; j <= 3; j++)
-                {
-
-                    Console.Write(this.array_int[i, j] + " | ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
+        /* Getter for the array */
         public int[,] get_arr()
         {
             return this.array_int;
         }
 
-        public int get_value_by_color(Color pix)
+        /* 
+         * Each color is associated to a number, this function match the color and return the good int 
+         * don't edit this
+         */
+        /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        private int get_value_by_color(Color pix)
         {
             if (pix.R == 204 && pix.G == 192 && pix.B == 179)
                 return 0;
@@ -90,6 +83,8 @@ namespace _2048
             else
                 return 0;
         }
+        /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
     }
 }

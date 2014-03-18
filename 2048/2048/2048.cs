@@ -23,21 +23,44 @@ namespace _2048
         public Form1()
         {
             InitializeComponent();
+
+            //Initialisation
             bmp_display = null;
             nav = IntPtr.Zero;
             array = new Array2048();
+            dataGridView1.ReadOnly = true;
+
+            //Check If Chrome is open and bind it to public var *nav* else exit with error
             foreach (Process pList in Process.GetProcesses())
                 if (pList.MainWindowTitle.Contains("Chrome"))
                     nav = pList.MainWindowHandle;
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-            refresh();
-            dataGridView1.ReadOnly = true;
-            this.Focus();
+            if (nav == null)
+                print_error();
 
+            //Check If Board is on the page else exit with error
+            this.crop = get_bound_board(ScreenShot.PrintWindow(nav));
+            if (this.crop.Item1 == -1 && this.crop.Item2 == -1)
+                print_error();
+            else
+            {
+                //Add 4 rows in the datagrid
+                dataGridView1.Rows.Add(4);
 
+                //Load
+                refresh();
+
+                //Focus the main form to keep bug if using keyboard
+                this.Focus();
+            }
+
+            
+        }
+
+        private void print_error()
+        {
+            MessageBox.Show("Lancez Chrome et une page du jeu 2048 puis réessayer", "Fail configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            this.Close();
+            Environment.Exit(0);
         }
 
         private Tuple<int, int> get_bound_board(Bitmap bmp)
@@ -54,7 +77,6 @@ namespace _2048
                 {
                     if (bmp.GetPixel(i, j) == Color.FromArgb(187, 173, 160)) // CODE RGB BORDURE
                     {
-                        Console.WriteLine("First coord : x = " + i + " y = " + j);
                         not_found = false;
                         save_x = i;
                         save_y = j;
@@ -64,44 +86,30 @@ namespace _2048
                 j = 0;
                 i++;
             }
-            return new Tuple<int, int>(save_x, save_y);
-        }
-
-        private void print_red_pixel(List<Point> list_point)
-        {
-            foreach (Point p in list_point)
-                bmp_display.SetPixel(p.X, p.Y, Color.Red);
+            if (!not_found)
+                return new Tuple<int, int>(save_x, save_y);
+            else
+                return new Tuple<int, int>(-1, -1);
         }
 
         private void refresh()
         {
             if (nav == null)
                 return;
-            Thread.Sleep(400);
+            Thread.Sleep(500);
             Bitmap bmp = ScreenShot.PrintWindow(nav);
-            if (bmp_display == null)
-                this.crop = get_bound_board(bmp);
+            this.crop = get_bound_board(bmp);
             bmp_display = bmp.Clone(new Rectangle(this.crop.Item1, this.crop.Item2, 500, 500), bmp.PixelFormat);
             bmp.Dispose();
 
-            /* COORD INIT bmp2.SetPixel(70, 30, Color.Red);
-             ESPACE ENTRE 2 POINTS 120
-             IMAGE DE 495 x 495 */
-
-            List<Point> list_point_debug = array.update_array(bmp_display);
-            print_red_pixel(list_point_debug);
+            array.update_array(bmp_display);
 
             for (int i = 0; i <= 3; i++)
                 for (int j = 0; j <= 3; j++)
-                {
                     this.dataGridView1.Rows[i].Cells[j].Value = array.get_arr()[i, j];
-                }
 
-                /* !!!!!!!!!!!!!!!!!!!!!!!!! */
-
-                this.pictureBox1.Image = bmp_display;
+            this.pictureBox1.Image = bmp_display;
             ScreenShot.SetForegroundWindow(this.Handle);
-           
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -125,32 +133,6 @@ namespace _2048
             Form1_KeyDown(null, e);
             e.Handled = true;
             e.SuppressKeyPress = true;
-        }
-
-
-
-    }
-
-    public class NoArrowKeysDataGridView : DataGridView
-    {
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            switch (e.KeyData & Keys.KeyCode)
-            {
-                case Keys.Up:
-                case Keys.Right:
-                case Keys.Down:
-                case Keys.Left:
-                    if (!this.IsCurrentCellInEditMode)
-                    {
-                        // Swallow arrow keys.
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                    }
-                    break;
-            }
-            base.OnKeyDown(e);
-            
         }
     }
 }
