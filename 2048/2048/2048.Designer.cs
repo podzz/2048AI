@@ -76,6 +76,7 @@
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(229, 20);
             this.hScrollBar1.TabIndex = 0;
+
             // 
             // hScrollBar2
             // 
