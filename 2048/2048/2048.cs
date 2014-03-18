@@ -29,7 +29,13 @@ namespace _2048
             foreach (Process pList in Process.GetProcesses())
                 if (pList.MainWindowTitle.Contains("Chrome"))
                     nav = pList.MainWindowHandle;
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows.Add();
             refresh();
+            dataGridView1.ReadOnly = true;
+            this.Focus();
 
 
         }
@@ -61,28 +67,44 @@ namespace _2048
             return new Tuple<int, int>(save_x, save_y);
         }
 
+        private void print_red_pixel(List<Point> list_point)
+        {
+            foreach (Point p in list_point)
+                bmp_display.SetPixel(p.X, p.Y, Color.Red);
+        }
+
         private void refresh()
         {
             if (nav == null)
                 return;
+            Thread.Sleep(400);
             Bitmap bmp = ScreenShot.PrintWindow(nav);
             if (bmp_display == null)
                 this.crop = get_bound_board(bmp);
-            bmp_display = bmp.Clone(new Rectangle(this.crop.Item1, this.crop.Item2, 495, 495), bmp.PixelFormat);
+            bmp_display = bmp.Clone(new Rectangle(this.crop.Item1, this.crop.Item2, 500, 500), bmp.PixelFormat);
             bmp.Dispose();
 
             /* COORD INIT bmp2.SetPixel(70, 30, Color.Red);
              ESPACE ENTRE 2 POINTS 120
              IMAGE DE 495 x 495 */
 
-            array.update_array(bmp_display);
+            List<Point> list_point_debug = array.update_array(bmp_display);
+            print_red_pixel(list_point_debug);
 
-            /* !!!!!!!!!!!!!!!!!!!!!!!!! */
+            for (int i = 0; i <= 3; i++)
+                for (int j = 0; j <= 3; j++)
+                {
+                    this.dataGridView1.Rows[i].Cells[j].Value = array.get_arr()[i, j];
+                }
 
-            this.pictureBox1.Image = bmp_display;
+                /* !!!!!!!!!!!!!!!!!!!!!!!!! */
+
+                this.pictureBox1.Image = bmp_display;
+            ScreenShot.SetForegroundWindow(this.Handle);
+           
         }
 
-        private void splitContainer1_KeyDown(object sender, KeyEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             ScreenShot.SetForegroundWindow(nav);
             if (e.KeyCode == Keys.Up)
@@ -95,11 +117,40 @@ namespace _2048
                 SendKeys.SendWait("{RIGHT}");
             else if (e.KeyCode == Keys.Space)
                 SendKeys.SendWait(" ");
-
-
-            ScreenShot.SetForegroundWindow(this.Handle);
-            Thread.Sleep(100);
             refresh();
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Form1_KeyDown(null, e);
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+
+
+
+    }
+
+    public class NoArrowKeysDataGridView : DataGridView
+    {
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyData & Keys.KeyCode)
+            {
+                case Keys.Up:
+                case Keys.Right:
+                case Keys.Down:
+                case Keys.Left:
+                    if (!this.IsCurrentCellInEditMode)
+                    {
+                        // Swallow arrow keys.
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    break;
+            }
+            base.OnKeyDown(e);
+            
         }
     }
 }

@@ -18,7 +18,7 @@ namespace _2048
                     array_int[i, j] = 0;
         }
 
-        public void update_array(Bitmap bmp)
+        public List<Point> update_array(Bitmap bmp)
         {
             int padd_x = 120;
             int padd_y = 120;
@@ -26,18 +26,21 @@ namespace _2048
             int x = 70;
             int y = 30;
 
+            List<Point> list_point = new List<Point>();
 
             for (int i = 0; i <= 3; i++)
             {
                 for (int j = 0; j <= 3; j++)
                 {
                     this.array_int[i,j] = get_value_by_color(bmp.GetPixel(x, y));
+                    list_point.Add(new Point(x, y));
                     x += padd_x;
                 }
                 x = 70;
                 y+= padd_y;
             }
             display_array();
+            return list_point;
             
         }
 
@@ -85,7 +88,7 @@ namespace _2048
             else if (pix.R == 237 && pix.G == 197 && pix.B == 63)
                 return 1024;
             else
-                return -1;
+                return 0;
         }
 
     }
