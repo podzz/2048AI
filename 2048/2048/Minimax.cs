@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace _2048
 {
-    public enum Move
+    public enum Move_Key
     {
         UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT,
+        SPACE
     };
 
     public class Minimax
@@ -144,18 +145,18 @@ namespace _2048
             return false;
         }
 
-        private List<Move> get_allowed_moves()
+        private List<Move_Key> get_allowed_moves()
         {
-            List<Move> list = new List<Move>();
+            List<Move_Key> list = new List<Move_Key>();
 
             if (is_up_allowed())
-                list.Add(Move.UP);
+                list.Add(Move_Key.UP);
             if (is_down_allowed())
-                list.Add(Move.DOWN);
+                list.Add(Move_Key.DOWN);
             if (is_left_allowed())
-                list.Add(Move.LEFT);
+                list.Add(Move_Key.LEFT);
             if (is_right_allowed())
-                list.Add(Move.RIGHT);
+                list.Add(Move_Key.RIGHT);
 
             return list;
         }

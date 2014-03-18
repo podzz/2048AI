@@ -51,6 +51,7 @@ namespace _2048
 
                 //Focus the main form to keep bug if using keyboard
                 this.Focus();
+                loop_game();
             }
 
             
@@ -101,15 +102,35 @@ namespace _2048
             this.crop = get_bound_board(bmp);
             bmp_display = bmp.Clone(new Rectangle(this.crop.Item1, this.crop.Item2, 500, 500), bmp.PixelFormat);
             bmp.Dispose();
-
             array.update_array(bmp_display);
-
             for (int i = 0; i <= 3; i++)
                 for (int j = 0; j <= 3; j++)
                     this.dataGridView1.Rows[i].Cells[j].Value = array.get_arr()[i, j];
 
             this.pictureBox1.Image = bmp_display;
             ScreenShot.SetForegroundWindow(this.Handle);
+        }
+
+
+        private void loop_game()
+        {
+            while (true)
+            {
+                Move_Key move = Move_Key.DOWN; //= get_move()
+                ScreenShot.SetForegroundWindow(nav);
+                if (move == Move_Key.UP)
+                    SendKeys.SendWait("{UP}");
+                else if (move == Move_Key.DOWN)
+                    SendKeys.SendWait("{DOWN}");
+                else if (move == Move_Key.LEFT)
+                    SendKeys.SendWait("{LEFT}");
+                else if (move == Move_Key.RIGHT)
+                    SendKeys.SendWait("{RIGHT}");
+                else if (move == Move_Key.SPACE)
+                    SendKeys.SendWait(" ");
+                refresh();
+            }
+
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -125,6 +146,8 @@ namespace _2048
                 SendKeys.SendWait("{RIGHT}");
             else if (e.KeyCode == Keys.Space)
                 SendKeys.SendWait(" ");
+            else if (e.KeyCode == Keys.Escape)
+                print_error();
             refresh();
         }
 
