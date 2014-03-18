@@ -35,12 +35,13 @@ namespace _2048
             Rectangle rect = new Rectangle();
             ScreenShot.GetWindowRect(this.nav, out rect);
             Rectangle cut = new Rectangle(rect.Width / 2 - 249, 330, 495, 495);
+            Bitmap bmp = null;
             while (true)
             {
-                var bmp = ScreenShot.PrintWindow(nav);
-                var bmp2 = bmp.Clone(cut, bmp.PixelFormat);
+                bmp = ScreenShot.PrintWindow(nav);
+                Bitmap bmp2 = bmp.Clone(cut, bmp.PixelFormat);
+                bmp.Dispose();
                 this.pictureBox1.Image = bmp2;
-                Thread.Sleep(100);
                 // IMAGE DE 495 x 495
             }
         }
@@ -61,6 +62,8 @@ namespace _2048
                 SendKeys.SendWait("{LEFT}");
             else if (e.KeyCode == Keys.Right)
                 SendKeys.SendWait("{RIGHT}");
+            else if (e.KeyCode == Keys.Space)
+                SendKeys.SendWait(" ");
             ScreenShot.SetForegroundWindow(this.Handle);
         }
     }
