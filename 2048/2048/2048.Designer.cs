@@ -31,11 +31,8 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.hScrollBar2 = new System.Windows.Forms.HScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -49,13 +46,9 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.hScrollBar2);
-            this.splitContainer1.Panel2.Controls.Add(this.hScrollBar1);
-            this.splitContainer1.Size = new System.Drawing.Size(1276, 640);
-            this.splitContainer1.SplitterDistance = 1043;
+            this.splitContainer1.Panel1MinSize = 495;
+            this.splitContainer1.Size = new System.Drawing.Size(712, 511);
+            this.splitContainer1.SplitterDistance = 581;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer1_KeyDown);
             // 
@@ -64,40 +57,21 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1043, 640);
+            this.pictureBox1.Size = new System.Drawing.Size(581, 511);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // hScrollBar1
-            // 
-            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 0);
-            this.hScrollBar1.Maximum = 500;
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(229, 20);
-            this.hScrollBar1.TabIndex = 0;
-
-            // 
-            // hScrollBar2
-            // 
-            this.hScrollBar2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.hScrollBar2.Location = new System.Drawing.Point(0, 20);
-            this.hScrollBar2.Maximum = 500;
-            this.hScrollBar2.Name = "hScrollBar2";
-            this.hScrollBar2.Size = new System.Drawing.Size(229, 17);
-            this.hScrollBar2.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1276, 640);
+            this.ClientSize = new System.Drawing.Size(712, 511);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Form1";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Text = "2048K";
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -109,8 +83,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar2;
     }
 }
 

@@ -15,7 +15,6 @@ namespace _2048
 {
     public partial class Form1 : Form
     {
-        protected Thread thread;
         private Array2048 array;
         protected IntPtr nav;
 
@@ -27,32 +26,47 @@ namespace _2048
             foreach (Process pList in Process.GetProcesses())
                 if (pList.MainWindowTitle.Contains("Chrome"))
                     nav = pList.MainWindowHandle;
-            thread = new Thread(new ThreadStart(refresh));
-            thread.Start();
+            refresh();
             
 
         }
 
         private void refresh()
         {
+            if (nav == null)
+                return;
             Rectangle rect = new Rectangle();
             ScreenShot.GetWindowRect(this.nav, out rect);
-            Rectangle cut = new Rectangle(rect.Width / 2 - this.hScrollBar1.Value, this.hScrollBar2.Value, 495, 495);
             Bitmap bmp = null;
-            while (true)
-            {
-                bmp = ScreenShot.PrintWindow(nav);
-                Bitmap bmp2 = bmp.Clone(new Rectangle(rect.Width / 2 - this.hScrollBar1.Value, this.hScrollBar2.Value, 495, 495), bmp.PixelFormat);
-                bmp.Dispose();
-                this.pictureBox1.Image = bmp2;
-                array.update_array(bmp2);
-                // IMAGE DE 495 x 495
-            }
-        }
+            bmp = ScreenShot.PrintWindow(nav);
+            // R/G/B : 187/173/160
+            bool not_found = true;
+            int i = 0;
+            int j = 0;
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.thread.Abort();
+            int save_x = 0;
+            int save_y = 0;
+            while (i < bmp.Width && not_found)
+            {
+                while (j < bmp.Height && not_found)
+                {
+                    if (bmp.GetPixel(i, j) == Color.FromArgb(187, 173, 160))
+                    {
+                        Console.WriteLine("First coord : x = " + i + " y = " + j);
+                        not_found = false;
+                        save_x = i;
+                        save_y = j;
+                    }
+                    j++;
+                }
+                j = 0;
+                i++;
+            }
+            Bitmap bmp2 = bmp.Clone(new Rectangle(save_x, save_y, 495, 495), bmp.PixelFormat);
+            bmp.Dispose();
+            //          array.update_array(bmp2);
+            this.pictureBox1.Image = bmp2;
+            // IMAGE DE 495 x 495
         }
 
         private void splitContainer1_KeyDown(object sender, KeyEventArgs e)
@@ -69,6 +83,18 @@ namespace _2048
             else if (e.KeyCode == Keys.Space)
                 SendKeys.SendWait(" ");
             ScreenShot.SetForegroundWindow(this.Handle);
+            Thread.Sleep(500);
+            refresh();
+        }
+
+        private void hScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            refresh();
+        }
+
+        private void hScrollBar2_ValueChanged(object sender, EventArgs e)
+        {
+            refresh();
         }
     }
 }
