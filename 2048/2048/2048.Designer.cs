@@ -47,8 +47,8 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel1MinSize = 495;
-            this.splitContainer1.Size = new System.Drawing.Size(712, 511);
-            this.splitContainer1.SplitterDistance = 581;
+            this.splitContainer1.Size = new System.Drawing.Size(1025, 511);
+            this.splitContainer1.SplitterDistance = 602;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer1_KeyDown);
             // 
@@ -57,7 +57,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(581, 511);
+            this.pictureBox1.Size = new System.Drawing.Size(602, 511);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -66,7 +66,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(712, 511);
+            this.ClientSize = new System.Drawing.Size(1025, 511);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "2048K";

@@ -19,7 +19,6 @@ namespace _2048
         {
             RECT rc;
             GetWindowRect(hwnd, out rc);
-
             Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
             Graphics gfxBmp = Graphics.FromImage(bmp);
             IntPtr hdcBitmap = gfxBmp.GetHdc();

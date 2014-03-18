@@ -25,13 +25,13 @@ namespace _2048
             N1024,
             N2048
         };
-        private CellValue[,] array_int;
+        private int[,] array_int;
         public Array2048()
         {
-            array_int = new CellValue[4,4];
+            array_int = new int[4,4];
             for (int i = 0; i <= 3; i++)
                 for (int j = 0; j <= 3; j++)
-                    array_int[i,j] = CellValue.Undefined;
+                    array_int[i, j] = 0;
         }
 
         public void update_array(Bitmap bmp)
@@ -71,17 +71,17 @@ namespace _2048
             Console.WriteLine();
         }
 
-        public CellValue[,] get_arr()
+        public int[,] get_arr()
         {
             return this.array_int;
         }
 
-        public CellValue get_value_by_color(Color pix)
+        public int get_value_by_color(Color pix)
         {
             if (pix.R == 204 && pix.G == 192 && pix.B == 179)
-                return CellValue.N0;
+                return 0;
             else
-                return CellValue.Undefined;
+                return 0;
         }
 
     }

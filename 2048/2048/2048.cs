@@ -82,8 +82,8 @@ namespace _2048
                 SendKeys.SendWait("{RIGHT}");
             else if (e.KeyCode == Keys.Space)
                 SendKeys.SendWait(" ");
+            Thread.Sleep(200);
             ScreenShot.SetForegroundWindow(this.Handle);
-            Thread.Sleep(500);
             refresh();
         }
 
