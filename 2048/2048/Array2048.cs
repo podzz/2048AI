@@ -9,22 +9,6 @@ namespace _2048
 {
     class Array2048
     {
-        public enum CellValue
-        {
-            Undefined,
-            N0,
-            N2,
-            N4,
-            N8,
-            N16,
-            N32,
-            N64,
-            N128,
-            N256,
-            N512,
-            N1024,
-            N2048
-        };
         private int[,] array_int;
         public Array2048()
         {
@@ -36,11 +20,11 @@ namespace _2048
 
         public void update_array(Bitmap bmp)
         {
-            int padd_x = bmp.Width / 4 - 50;
-            int padd_y = bmp.Height / 4 - 50;
+            int padd_x = 120;
+            int padd_y = 120;
 
-            int x = bmp.Width / 4 - 50;
-            int y = bmp.Height / 4 - 50;
+            int x = 70;
+            int y = 30;
 
 
             for (int i = 0; i <= 3; i++)
@@ -48,10 +32,10 @@ namespace _2048
                 for (int j = 0; j <= 3; j++)
                 {
                     this.array_int[i,j] = get_value_by_color(bmp.GetPixel(x, y));
-                    y+= padd_y;
+                    x += padd_x;
                 }
-                y = 0;
-                x+= padd_x;
+                x = 70;
+                y+= padd_y;
             }
             display_array();
             
@@ -80,8 +64,28 @@ namespace _2048
         {
             if (pix.R == 204 && pix.G == 192 && pix.B == 179)
                 return 0;
+            else if (pix.R == 238 && pix.G == 228 && pix.B == 218)
+                return 2;
+            else if (pix.R == 237 && pix.G == 224 && pix.B == 200)
+                return 4;
+            else if (pix.R == 242 && pix.G == 177 && pix.B == 121)
+                return 8;
+            else if (pix.R == 245 && pix.G == 149 && pix.B == 99)
+                return 16;
+            else if (pix.R == 246 && pix.G == 124 && pix.B == 95)
+                return 32;
+            else if (pix.R == 246 && pix.G == 94 && pix.B == 59)
+                return 64;
+            else if (pix.R == 237 && pix.G == 207 && pix.B == 114)
+                return 128;
+            else if (pix.R == 237 && pix.G == 204 && pix.B == 97)
+                return 256;
+            else if (pix.R == 237 && pix.G == 200 && pix.B == 80)
+                return 512;
+            else if (pix.R == 237 && pix.G == 197 && pix.B == 63)
+                return 1024;
             else
-                return 0;
+                return -1;
         }
 
     }
