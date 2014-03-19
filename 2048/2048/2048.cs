@@ -57,12 +57,29 @@ namespace _2048
             this.Focus();
         }
 
+        private int[,] fran_to_po(int[,] board)
+        {
+            int[,] new_board = new int[4, 4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    new_board[i, j] = board[j, i];
+                }
+            }
+
+            return new_board;
+        }
+
         private void game()
         {
             while (true)
             {
                 /* GET_MOVE IA */
-                Move_Key move = Move_Key.DOWN; //= get_move()
+                //Move_Key move = Move_Key.DOWN; //= get_move()
+
+                Move_Key move = (new Minimax(fran_to_po(array.get_arr()))).get_best_move();
 
                 ScreenShot.SetForegroundWindow(nav);
                 
