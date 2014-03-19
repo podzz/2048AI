@@ -34,6 +34,7 @@ namespace _2048
             //Add 4 rows in the datagrid
             dataGridView1.Rows.Add(4);
 
+            refresh();
             //Load
             game();
         }
