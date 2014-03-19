@@ -19,13 +19,13 @@ namespace _2048
             //maximize value of pieces
             costs_[0] = 1.0f;
             //minimize number of pieces
-            costs_[1] = -1.0f;
+            costs_[1] = 0.0f;
 
             features_[0] = new Feature1();
             features_[1] = new Feature2();
         }
 
-        public float compute(int[][] board)
+        public float compute(int[,] board)
         {
             float res = 0.0f;
 

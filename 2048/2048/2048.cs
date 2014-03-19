@@ -111,12 +111,27 @@ namespace _2048
             ScreenShot.SetForegroundWindow(this.Handle);
         }
 
+        private int[,] norm_board(int[,] board)
+        {
+            int [,] new_board = new int[4, 4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    new_board[j, i] = board[i, j];
+                }
+            }
+
+            return new_board;
+        }
 
         private void loop_game()
         {
             while (true)
             {
-                Move_Key move = Move_Key.DOWN; //= get_move()
+                //Move_Key move = Move_Key.DOWN; //= get_move()
+                Move_Key move = (new Minimax(norm_board(array.get_arr()))).get_best_move();
                 ScreenShot.SetForegroundWindow(nav);
                 if (move == Move_Key.UP)
                     SendKeys.SendWait("{UP}");

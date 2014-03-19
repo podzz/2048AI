@@ -8,6 +8,6 @@ namespace _2048
 {
     interface Feature
     {
-        float compute(int[][] board);
+        float compute(int[,] board);
     }
 }

@@ -13,7 +13,7 @@ namespace _2048
         {
         }
 
-        public float compute(int[][] board)
+        public float compute(int[,] board)
         {
             float res = 0.0f;
 
@@ -21,7 +21,7 @@ namespace _2048
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    res += board[i][j];
+                    res += board[i, j];
                 }
             }
 
