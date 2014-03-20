@@ -17,7 +17,7 @@ namespace _2048
             features_ = new Feature[2];
 
             //maximize value of pieces
-            costs_[0] = 1.0f;
+            costs_[0] = 10.0f;
             //minimize number of pieces
             costs_[1] = 0.0f;
 

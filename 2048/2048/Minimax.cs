@@ -27,7 +27,7 @@ namespace _2048
 
         public Minimax(int[,] board)
         {
-            board_ = board;
+            board_ = copy_board(board);
 
             allowed_moves = new List<Move_Key>();
             up_moves = new List<int[,]>();
@@ -45,16 +45,10 @@ namespace _2048
             float down = 0.0f;
             float left = 0.0f;
             float right = 0.0f;
+            float max = 0.0f;
+            Move_Key move;
 
             get_new_boards();
-
-            foreach (int[,] board in up_moves)
-            {
-                temp = (new Minimax(board)).get_best_move_rec(0);
-
-                if (temp > up)
-                    up = temp;
-            }
 
             foreach (int[,] board in down_moves)
             {
@@ -62,6 +56,14 @@ namespace _2048
 
                 if (temp > down)
                     down = temp;
+            }
+            
+            foreach (int[,] board in up_moves)
+            {
+                temp = (new Minimax(board)).get_best_move_rec(0);
+
+                if (temp > up)
+                    up = temp;
             }
 
             foreach (int[,] board in left_moves)
@@ -80,59 +82,33 @@ namespace _2048
                     right = temp;
             }
 
-            if (up > down && up > left && up > right)
-                return Move_Key.UP;
-            else if (down > up && down > left && down > right)
-                return Move_Key.DOWN;
-            else if (left > up && left > down && left > right)
-                return Move_Key.LEFT;
-            else
-                return Move_Key.RIGHT;
+            max = up;
+            move = Move_Key.UP;
+
+            if (down > max)
+            {
+                max = down;
+                move = Move_Key.DOWN;
+            }
+            if (left > max)
+            {
+                max = left;
+                move = Move_Key.LEFT;
+            }
+            if (right > max)
+            {
+                move = Move_Key.RIGHT;
+            }
+
+            return move;
         }
 
         //gets the best float
         private float get_best_move_rec(int n)
         {
-            if (n >= 1)
+            if (n >= 2)
             {
-                get_new_boards();
-
-                float temp = 0.0f;
-                float res = 0.0f;
-
-                foreach (int[,] board in up_moves)
-                {
-                    temp = fit_eval.compute(board);
-
-                    if (temp > res)
-                        res = temp;
-                }
-
-                foreach (int[,] board in down_moves)
-                {
-                    temp = fit_eval.compute(board);
-
-                    if (temp > res)
-                        res = temp;
-                }
-
-                foreach (int[,] board in left_moves)
-                {
-                    temp = fit_eval.compute(board);
-
-                    if (temp > res)
-                        res = temp;
-                }
-
-                foreach (int[,] board in right_moves)
-                {
-                    temp = fit_eval.compute(board);
-
-                    if (temp > res)
-                        res = temp;
-                }
-
-                return res;
+                return fit_eval.compute(board_);
             }
             else
             {
@@ -149,7 +125,7 @@ namespace _2048
                         res = temp;
                 }
 
-                foreach (int[,] board in up_moves)
+                foreach (int[,] board in down_moves)
                 {
                     temp = (new Minimax(board)).get_best_move_rec(n + 1);
 
@@ -157,7 +133,7 @@ namespace _2048
                         res = temp;
                 }
 
-                foreach (int[,] board in up_moves)
+                foreach (int[,] board in left_moves)
                 {
                     temp = (new Minimax(board)).get_best_move_rec(n + 1);
 
@@ -165,7 +141,7 @@ namespace _2048
                         res = temp;
                 }
 
-                foreach (int[,] board in up_moves)
+                foreach (int[,] board in right_moves)
                 {
                     temp = (new Minimax(board)).get_best_move_rec(n + 1);
 
@@ -240,7 +216,7 @@ namespace _2048
                 //merge
                 if (moved[i, j - 1] == 0 && board[i, j - 1] == board[i, j])
                 {
-                    board[i, j - 1] = board[i, j] * board[i, j];
+                    board[i, j - 1] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i, j - 1] = 1;
                     break;
@@ -267,7 +243,7 @@ namespace _2048
                 //merge
                 if (moved[i, j + 1] == 0 && board[i, j + 1] == board[i, j])
                 {
-                    board[i, j + 1] = board[i, j] * board[i, j];
+                    board[i, j + 1] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i, j + 1] = 1;
                     break;
@@ -294,7 +270,7 @@ namespace _2048
                 //merge
                 if (moved[i - 1, j] == 0 && board[i - 1, j] == board[i, j])
                 {
-                    board[i - 1, j] = board[i, j] * board[i, j];
+                    board[i - 1, j] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i - 1, j] = 1;
                     break;
@@ -321,7 +297,7 @@ namespace _2048
                 //merge
                 if (moved[i + 1, j] == 0 && board[i + 1, j] == board[i, j])
                 {
-                    board[i + 1, j] = board[i, j] * board[i, j];
+                    board[i + 1, j] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i + 1, j] = 1;
                     break;
@@ -351,7 +327,7 @@ namespace _2048
             //simulates up move
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 3; j >= 0; j--)
                 {
                     if (new_board[i, j] != 0)
                         move_up(new_board, moved, i, j);
@@ -387,7 +363,7 @@ namespace _2048
             //simulates up move
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     if (new_board[i, j] != 0)
                         move_down(new_board, moved, i, j);
@@ -404,7 +380,7 @@ namespace _2048
                         if (new_board[i, j] == 0)
                         {
                             new_board[i, j] = val;
-                            list.Add(copy_board(board_));
+                            list.Add(copy_board(new_board));
                             new_board[i, j] = 0;
                         }
                     }
@@ -421,9 +397,9 @@ namespace _2048
             List<int[,]> list = new List<int[,]>();
 
             //simulates up move
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int i = 3; i >= 0; i--)
                 {
                     if (new_board[i, j] != 0)
                         move_left(new_board, moved, i, j);
@@ -440,7 +416,7 @@ namespace _2048
                         if (new_board[i, j] == 0)
                         {
                             new_board[i, j] = val;
-                            list.Add(copy_board(board_));
+                            list.Add(copy_board(new_board));
                             new_board[i, j] = 0;
                         }
                     }
@@ -457,9 +433,9 @@ namespace _2048
             List<int[,]> list = new List<int[,]>();
 
             //simulates up move
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 4; i++)
                 {
                     if (new_board[i, j] != 0)
                         move_right(new_board, moved, i, j);
@@ -476,7 +452,7 @@ namespace _2048
                         if (new_board[i, j] == 0)
                         {
                             new_board[i, j] = val;
-                            list.Add(copy_board(board_));
+                            list.Add(copy_board(new_board));
                             new_board[i, j] = 0;
                         }
                     }

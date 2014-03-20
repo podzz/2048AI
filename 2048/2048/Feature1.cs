@@ -21,7 +21,7 @@ namespace _2048
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    res += board[i, j];
+                    res += board[i, j] * board[i, j];
                 }
             }
 
