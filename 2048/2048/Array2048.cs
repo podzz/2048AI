@@ -44,9 +44,21 @@ namespace _2048
             }
         }
 
+        public void display_array()
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                for (int j = 0; j <= 3; j++)
+                    Console.Write(this.array_int[i, j] + " [ ");
+                Console.Write("\n");
+            }
+                
+        }
+
         /* Getter for the array */
         public int[,] get_arr()
         {
+            display_array();
             return this.array_int;
         }
 
