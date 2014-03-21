@@ -22,13 +22,15 @@ namespace _2048
             costs_[1] = 0.0f;
             costs_[2] = 1.0f;
             costs_[3] = 1.0f;
-            costs_[4] = 2.7f;
+            costs_[4] = 0.1f;
+            costs_[5] = 2.7f;
 
             features_[0] = new Feature1();
             features_[1] = new Feature2();
             features_[2] = new Feature3();
             features_[3] = new Feature4();
-            features_[4] = new Feature6();
+            features_[4] = new Feature5();
+            features_[5] = new Feature6();
         }
 
         public float compute(int[,] board)
