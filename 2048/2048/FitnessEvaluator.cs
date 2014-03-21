@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _2048
@@ -10,11 +11,19 @@ namespace _2048
     {
         private float[] costs_;
         private Feature[] features_;
+        private float[] results_;
+        private Thread[] threads_;
+
+        private void compute_thread(Feature feature, int[,] board, ref float res, float cost)
+        {
+            res = feature.compute(board) * cost;
+        }
 
         public FitnessEvaluator()
         {
             costs_ = new float[6];
             features_ = new Feature[6];
+            results_ = new float[6] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
             //maximize value of pieces
             costs_[0] = 1.0f;
