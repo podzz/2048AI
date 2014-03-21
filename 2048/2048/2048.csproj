@@ -55,6 +55,8 @@
     <Compile Include="Feature.cs" />
     <Compile Include="Feature1.cs" />
     <Compile Include="Feature2.cs" />
+    <Compile Include="Feature6.cs" />
+    <Compile Include="Feature4.cs" />
     <Compile Include="Feature3.cs" />
     <Compile Include="FitnessEvaluator.cs" />
     <Compile Include="ImageProcess.cs" />
