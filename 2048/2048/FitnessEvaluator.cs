@@ -13,8 +13,8 @@ namespace _2048
 
         public FitnessEvaluator()
         {
-            costs_ = new float[5];
-            features_ = new Feature[5];
+            costs_ = new float[6];
+            features_ = new Feature[6];
 
             //maximize value of pieces
             costs_[0] = 1.0f;
@@ -37,7 +37,7 @@ namespace _2048
         {
             float res = 0.0f;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 1; i < 6; i++)
             {
                 res += features_[i].compute(board) * costs_[i];
             }

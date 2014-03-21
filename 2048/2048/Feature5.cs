@@ -52,7 +52,7 @@ namespace _2048
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    if (board[x, y] == 0)
+                    if (board[x, y] != 0)
                     {
                         value = Math.Log(board[x, y]) / Math.Log(2);
 
@@ -62,7 +62,7 @@ namespace _2048
                             Tuple<int, int> targetCell =
                                 findFarthestPosition(new Tuple<int, int>(x, y), vector, board).Item2;
 
-                            if (board[targetCell.Item1, targetCell.Item2] != 0)
+                            if (withinBounds(targetCell) && board[targetCell.Item1, targetCell.Item2] != 0)
                             {
                                 int target = board[targetCell.Item1, targetCell.Item2];
                                 double targetValue = Math.Log(target) / Math.Log(2);
