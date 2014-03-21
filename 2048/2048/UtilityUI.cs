@@ -74,9 +74,10 @@ namespace _2048
 
         public static void print_information()
         {
-            MessageBox.Show("Chrome va être lancer automatiquement.\nPour arrêter l'exécution, veuillez ne plus afficher 2048 dans votre navigateur.\n" +
+            MessageBox.Show("Chrome va être lancé automatiquement.\nPour arrêter l'exécution, veuillez ne plus afficher 2048 dans votre navigateur.\n" +
                             "Si aucune action n'est effectué dans 2048 cliquez sur la fenêtre de chrome pour aider ce programme à prendre le focus",
                             "Information de démarrage", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
     }
 }

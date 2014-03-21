@@ -100,7 +100,17 @@ namespace _2048
                 move = Move_Key.RIGHT;
             }
 
-            return move;
+
+            if (allowed_moves.Contains(move))
+                return move;
+            else if (allowed_moves.Count > 0)
+                return allowed_moves[0];
+            else
+            {
+                UtilityUI.print_error();
+                return move;
+            }
+
         }
 
         //gets the best float
