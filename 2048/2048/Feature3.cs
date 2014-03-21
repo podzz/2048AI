@@ -10,12 +10,12 @@ namespace _2048
     {
         public Feature3()
         {
-
         }
+
         public float compute(int[,] board)
         {
-
             int max = 0;
+
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
@@ -26,10 +26,9 @@ namespace _2048
                         if (value > max)
                             max = value;
                     }
-
-
                 }
             }
+
             return (float)(Math.Log((float) max) / Math.Log(2));
         }
     }
