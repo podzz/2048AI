@@ -51,11 +51,12 @@
       <DependentUpon>2048.cs</DependentUpon>
     </Compile>
     <Compile Include="AI.cs" />
-    <Compile Include="Array2048.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Feature1.cs" />
     <Compile Include="Feature2.cs" />
     <Compile Include="FitnessEvaluator.cs" />
+    <Compile Include="ImageProcess.cs" />
     <Compile Include="Minimax.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
