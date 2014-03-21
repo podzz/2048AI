@@ -43,9 +43,6 @@ namespace _2048
             while (true)
             {
                 Move_Key move = (new Minimax(arr)).get_best_move();
-
-                ScreenShot.SetForegroundWindow(nav);
-
                 if (move == Move_Key.UP)
                     SendKeys.SendWait("{UP}");
                 else if (move == Move_Key.DOWN)
