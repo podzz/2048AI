@@ -32,8 +32,7 @@ namespace _2048
         private int[,] refresh()
         {
             Thread.Sleep(500);
-            Bitmap bmp = ScreenShot.PrintWindow(nav);
-            imageprocess.process_cell(bmp);
+            imageprocess.process_cell(ScreenShot.PrintWindow(nav));
             return imageprocess.get_array();
         }
 
