@@ -41,8 +41,9 @@ namespace _2048
                 return new Tuple<int, int>(-1, -1);
         }
 
-        public static IntPtr auto_start(ref Tuple<int,int> crop)
+        public static IntPtr auto_start()
         {
+            Tuple<int, int> crop;
             Process.Start("chrome.exe", "http://gabrielecirulli.github.io/2048/");
             IntPtr nav = UtilityUI.get_chrome();
             if (nav == IntPtr.Zero)
@@ -77,6 +78,18 @@ namespace _2048
             MessageBox.Show("Chrome va être lancé automatiquement.\nPour arrêter l'exécution, veuillez ne plus afficher 2048 dans votre navigateur.\n" +
                             "Si aucune action n'est effectué dans 2048 cliquez sur la fenêtre de chrome pour aider ce programme à prendre le focus",
                             "Information de démarrage", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static int run_fast_compute()
+        {
+            DialogResult dr = MessageBox.Show("FAST ?", "FAST ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+                return 1;
+            else if (dr == DialogResult.No)
+                return 0;
+            else if (dr == DialogResult.Cancel)
+                return -1;
+            return -1;
         }
 
     }

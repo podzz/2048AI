@@ -17,16 +17,29 @@ namespace _2048
     public partial class Form1 : Form
     {
         protected IntPtr nav;
-        protected Tuple<int, int> crop;
         protected ImageProcess imageprocess;
+        protected Board board;
 
         public Form1()
         {
             InitializeComponent();
-            UtilityUI.print_information();
-            this.nav = UtilityUI.auto_start(ref this.crop);
-            imageprocess = new ImageProcess(ScreenShot.PrintWindow(nav));
-            game();
+
+            int code = UtilityUI.run_fast_compute();
+            if (code == -1)
+                UtilityUI.print_error();
+            else if (code == 0)
+            {
+                UtilityUI.print_information();
+                this.nav = UtilityUI.auto_start();
+                imageprocess = new ImageProcess(ScreenShot.PrintWindow(nav), false);
+                game();
+            }
+            else if (code == 1)
+            {
+                this.board = new Board();
+                imageprocess = new ImageProcess(Properties.Resources.log, true);
+                this.pictureBox1.Image = imageprocess.get_img();
+            }
         }
 
         private int[,] refresh()
@@ -55,5 +68,17 @@ namespace _2048
                 arr = refresh();
             }
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (this.board != null)
+            {
+                this.board.move(e.KeyCode);
+                this.board.display_board();
+                this.imageprocess.draw_board(this.board.get_array());
+                this.pictureBox1.Image = imageprocess.get_img();
+            }
+        }
+
     }
 }
