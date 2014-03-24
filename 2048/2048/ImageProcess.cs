@@ -227,7 +227,8 @@ namespace _2048
                     g.FillRectangle(new SolidBrush(this.get_color_by_value(array[i,j])), new Rectangle(top_left.X + padd * i, top_left.Y + padd * j, size_cell, size_cell));
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
-                    g.DrawString(array[i, j].ToString(), new Font(new FontFamily("Times New Roman"), 16.0f, FontStyle.Regular | FontStyle.Bold), Brushes.Black, new Point(top_left.X + padd * i + 40, top_left.Y + padd * j + 40));
+                    if (array[i,j] != 0)
+                            g.DrawString(array[i, j].ToString(), new Font(new FontFamily("Times New Roman"), 16.0f, FontStyle.Regular | FontStyle.Bold), Brushes.Black, new Point(top_left.X + padd * i + 40, top_left.Y + padd * j + 40));
             
         }
 

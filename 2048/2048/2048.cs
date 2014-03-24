@@ -39,6 +39,9 @@ namespace _2048
                 this.board = new Board();
                 imageprocess = new ImageProcess(Properties.Resources.log, true);
                 this.pictureBox1.Image = imageprocess.get_img();
+                Thread thread = new Thread(new ThreadStart(game_without_ui));
+                thread.Start();
+
             }
         }
 
@@ -74,6 +77,26 @@ namespace _2048
             if (this.board != null)
             {
                 this.board.move(e.KeyCode);
+                this.board.display_board();
+                this.imageprocess.draw_board(this.board.get_array());
+                this.pictureBox1.Image = imageprocess.get_img();
+            }
+        }
+
+        private void game_without_ui()
+        {
+            while (true)
+            {
+                DateTime timer = DateTime.Now;
+                Move_Key move = (new Minimax(this.board.get_array())).get_best_move();
+                if (move == Move_Key.UP)
+                this.board.move(Keys.Up);
+                if (move == Move_Key.DOWN)
+                this.board.move(Keys.Down);
+                if (move == Move_Key.LEFT)
+                this.board.move(Keys.Left);
+                if (move == Move_Key.RIGHT)
+                this.board.move(Keys.Right);
                 this.board.display_board();
                 this.imageprocess.draw_board(this.board.get_array());
                 this.pictureBox1.Image = imageprocess.get_img();

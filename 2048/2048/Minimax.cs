@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _2048
@@ -40,7 +41,6 @@ namespace _2048
 
         public Move_Key get_best_move()
         {
-            float temp = 0.0f;
             float up = 0.0f;
             float down = 0.0f;
             float left = 0.0f;
@@ -50,40 +50,26 @@ namespace _2048
 
             get_new_boards();
 
-            foreach (int[,] board in down_moves)
-            {
-                temp = (new Minimax(board)).get_best_move_rec(0);
-
-                if (temp > down)
-                    down = temp;
-            }
-            
-            foreach (int[,] board in up_moves)
-            {
-                temp = (new Minimax(board)).get_best_move_rec(0);
-
-                if (temp > up)
-                    up = temp;
-            }
-
-            foreach (int[,] board in left_moves)
-            {
-                temp = (new Minimax(board)).get_best_move_rec(0);
-
-                if (temp > left)
-                    left = temp;
-            }
-            
-            foreach (int[,] board in right_moves)
-            {
-                temp = (new Minimax(board)).get_best_move_rec(0);
-
-                if (temp > right)
-                    right = temp;
-            }
 
             max = up;
             move = Move_Key.UP;
+
+            Thread[] thr_array = new Thread[4];
+            thr_array[0] = new Thread(() => { down = thread_down_moves(); });
+            thr_array[1] = new Thread(() => { right = thread_right_moves(); });
+            thr_array[2] = new Thread(() => { left = thread_left_moves(); });
+            thr_array[3] = new Thread(() => { up = thread_up_moves(); });
+
+            foreach (Thread thr in thr_array)
+                thr.Start();
+            int nbAlive = 4;
+            while  (nbAlive > 0)
+            {
+                nbAlive = 0;
+                foreach(Thread thr in thr_array)
+                    if (thr.IsAlive)
+                        nbAlive++;
+            }
 
             if (down > max)
             {
@@ -113,12 +99,72 @@ namespace _2048
 
         }
 
+        private float thread_down_moves()
+        {
+            float down = 0;
+            float temp = 0;
+            foreach (int[,] board in down_moves)
+            {
+
+                temp = (new Minimax(board)).get_best_move_rec(0);
+
+                if (temp > down)
+                    down = temp;
+            }
+            return down;
+        }
+
+        private float thread_up_moves()
+        {
+            float up = 0;
+            float temp = 0;
+            foreach (int[,] board in up_moves)
+            {
+                temp = (new Minimax(board)).get_best_move_rec(0);
+
+                if (temp > up)
+                    up = temp;
+            }
+            return up;
+        }
+
+        private float thread_left_moves()
+        {
+            float left = 0;
+            float temp = 0;
+            foreach (int[,] board in left_moves)
+            {
+                temp = (new Minimax(board)).get_best_move_rec(0);
+
+                if (temp > left)
+                    left = temp;
+            }
+            return left;
+        }
+
+        private float thread_right_moves()
+        {
+            float right = 0;
+            float temp = 0;
+            foreach (int[,] board in right_moves)
+            {
+                temp = (new Minimax(board)).get_best_move_rec(0);
+
+                if (temp > right)
+                    right = temp;
+            }
+            return right;
+
+        }
+
+
         //gets the best float
         private float get_best_move_rec(int n)
         {
             if (n >= 2)
             {
-                return fit_eval.compute(board_);
+                float fit_compute = fit_eval.compute(board_);
+                return fit_compute;
             }
             else
             {
@@ -133,6 +179,7 @@ namespace _2048
 
                     if (temp > res)
                         res = temp;
+
                 }
 
                 foreach (int[,] board in down_moves)
@@ -204,7 +251,7 @@ namespace _2048
 
         private int[,] copy_board(int[,] board)
         {
-            int[,] new_board = new int[4,4];
+            int[,] new_board = new int[4, 4];
 
 
             for (int i = 0; i < 4; i++)
@@ -509,7 +556,7 @@ namespace _2048
         private List<int[,]> simulate_move_right()
         {
             int[,] new_board = copy_board(board_);
-            int[,] moved = new int[4, 4] { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0} };
+            int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
             List<int[,]> list = new List<int[,]>();
 
             //simulates up move
