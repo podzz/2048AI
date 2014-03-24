@@ -43,42 +43,6 @@ namespace _2048
             return true;
         }
 
-        private void merge_left()
-        {
-            int[,] new_board = this.board_;
-            int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-            List<int[,]> list = new List<int[,]>();
-
-            //simulates up move
-            for (int j = 0; j < 4; j++)
-            {
-                for (int i = 3; i >= 0; i--)
-                {
-                    if (new_board[i, j] != 0)
-                        move_left(new_board, moved, i, j);
-                }
-            }
-            this.board_ = new_board;
-        }
-
-        void merge_right()
-        {
-            int[,] new_board = this.board_;
-            int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-            List<int[,]> list = new List<int[,]>();
-
-            //simulates up move
-            for (int j = 0; j < 4; j++)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (new_board[i, j] != 0)
-                        move_right(new_board, moved, i, j);
-                }
-            }
-            this.board_ = new_board;
-        }
-
         private void move_up(int[,] board, int[,] moved, int i, int j)
         {
             while (j > 0)
@@ -89,7 +53,7 @@ namespace _2048
                     board[i, j - 1] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i, j - 1] = 1;
-                    break;
+                    return;
                 }
                 //deplacement
                 else if (board[i, j - 1] == 0)
@@ -99,7 +63,7 @@ namespace _2048
                 }
                 else
                 {
-                    break;
+                    return;
                 }
 
                 j--;
@@ -116,7 +80,7 @@ namespace _2048
                     board[i, j + 1] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i, j + 1] = 1;
-                    break;
+                    return;
                 }
                 //deplacement
                 else if (board[i, j + 1] == 0)
@@ -126,7 +90,7 @@ namespace _2048
                 }
                 else
                 {
-                    break;
+                    return;
                 }
 
                 j++;
@@ -143,7 +107,7 @@ namespace _2048
                     board[i - 1, j] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i - 1, j] = 1;
-                    break;
+                    return;
                 }
                 //deplacement
                 else if (board[i - 1, j] == 0)
@@ -153,7 +117,7 @@ namespace _2048
                 }
                 else
                 {
-                    break;
+                    return;
                 }
 
                 i--;
@@ -170,7 +134,7 @@ namespace _2048
                     board[i + 1, j] = board[i, j] * 2;
                     board[i, j] = 0;
                     moved[i + 1, j] = 1;
-                    break;
+                    return;
                 }
                 //deplacement
                 else if (board[i + 1, j] == 0)
@@ -180,14 +144,14 @@ namespace _2048
                 }
                 else
                 {
-                    break;
+                    return;
                 }
 
                 i++;
             }
         }
 
-        void merge_up()
+        private void merge_up()
         {
             int[,] new_board = this.board_;
             int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
@@ -198,15 +162,25 @@ namespace _2048
             {
                 for (int j = 3; j >= 0; j--)
                 {
-                    if (new_board[i, j] != 0)
+                    if (new_board[i, j] != 0 && moved[i, j] == 0)
                         move_up(new_board, moved, i, j);
                 }
             }
+
+            moved = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 } };
+
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    move_up(new_board, moved, i, j);
+                }
+            }
+
             this.board_ = new_board;
         }
 
-
-        void merge_down()
+        private void merge_down()
         {
             int[,] new_board = this.board_;
             int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
@@ -217,10 +191,79 @@ namespace _2048
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (new_board[i, j] != 0)
+                    if (new_board[i, j] != 0 && moved[i, j] == 0)
                         move_down(new_board, moved, i, j);
                 }
             }
+
+            moved = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 } };
+
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    move_down(new_board, moved, i, j);
+                }
+            }
+
+            this.board_ = new_board;
+        }
+        
+        private void merge_right()
+        {
+            int[,] new_board = this.board_;
+            int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+            List<int[,]> list = new List<int[,]>();
+
+            //simulates up move
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (new_board[i, j] != 0 && moved[i, j] == 0)
+                        move_right(new_board, moved, i, j);
+                }
+            }
+
+            moved = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 } };
+
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    move_right(new_board, moved, i, j);
+                }
+            }
+
+            this.board_ = new_board;
+        }
+
+        private void merge_left()
+        {
+            int[,] new_board = this.board_;
+            int[,] moved = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+            List<int[,]> list = new List<int[,]>();
+
+            //simulates up move
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    if (new_board[i, j] != 0 && moved[i, j] == 0)
+                        move_left(new_board, moved, i, j);
+                }
+            }
+
+            moved = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 } };
+
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    move_left(new_board, moved, i, j);
+                }
+            }
+
             this.board_ = new_board;
         }
 
